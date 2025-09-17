@@ -1,0 +1,732 @@
+/* =========================================================
+   Swipetrend Admin — Global Modernizations (CoreUI + BS4)
+   Uses existing theme vars:
+   --brand, --brand-2, --ink
+   ========================================================= */
+
+/* Editors & textareas */
+.ck-editor__editable,
+textarea {
+  min-height: 150px;
+  border-radius: 12px;
+  border: 1px solid rgba(11,18,32,.12);
+}
+.ck-editor__editable:focus,
+textarea:focus {
+  border-color: var(--brand);
+  box-shadow: 0 0 0 .15rem rgba(43,108,176,.15);
+  outline: none;
+}
+
+/* Datatables base */
+.datatable { width: 100% !important; }
+
+/* Checkbox column (DT Select) alignment */
+table.dataTable tbody td.select-checkbox::before,
+table.dataTable tbody td.select-checkbox::after,
+table.dataTable tbody th.select-checkbox::before,
+table.dataTable tbody th.select-checkbox::after {
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+/* Toolbar spacing */
+.dataTables_length,
+.dataTables_filter,
+.dt-buttons {
+  margin-top: .2rem;
+  margin-bottom: .333em;
+}
+
+/* Search position nudges (kept minimal) */
+.dataTables_filter { margin-right: 0; }
+
+/* DT buttons look */
+.dt-buttons .btn {
+  margin-left: .333em;
+  border-radius: 10px !important;
+  border: 1px solid rgba(11,18,32,.12) !important;
+  background: #fff !important;
+  color: var(--ink) !important;
+  padding: .4rem .6rem !important;
+  box-shadow: 0 2px 10px rgba(12,21,38,.06);
+}
+.dt-buttons .btn:hover {
+  border-color: var(--brand) !important;
+  box-shadow: 0 4px 16px rgba(43,108,176,.15);
+}
+
+/* Table shell */
+.table.datatable {
+  box-sizing: border-box;
+  border-collapse: collapse;
+  border-radius: 14px;
+  overflow: hidden;
+  box-shadow: 0 8px 24px rgba(12,21,38,.07);
+}
+
+/* Thead look */
+table.dataTable thead th {
+  background: linear-gradient(135deg, rgba(43,108,176,.08), rgba(14,165,233,.08));
+  border-bottom: 0 !important;
+  color: var(--ink);
+  font-weight: 700;
+}
+
+/* Scroll body divider */
+.dataTables_wrapper.no-footer .dataTables_scrollBody {
+  border-bottom: 1px solid rgba(12,21,38,.08);
+}
+
+/* Remove default sort bg images (keep icons/plugins if any) */
+table.dataTable thead .sorting,
+table.dataTable thead .sorting_asc,
+table.dataTable thead .sorting_desc {
+  background-image: none;
+}
+
+/* Row hover */
+.table.datatable tbody tr:hover {
+  background: rgba(14,165,233,.06);
+}
+
+/* DataTables inputs */
+.dataTables_wrapper .dataTables_length select,
+.dataTables_wrapper .dataTables_filter input {
+  border-radius: 10px;
+  border: 1px solid rgba(11,18,32,.12);
+  padding: .4rem .6rem;
+  outline: none;
+  background: #fff;
+}
+.dataTables_wrapper .dataTables_filter input:focus,
+.dataTables_wrapper .dataTables_length select:focus {
+  border-color: var(--brand);
+  box-shadow: 0 0 0 .15rem rgba(43,108,176,.15);
+}
+
+/* Pagination */
+.dataTables_wrapper .dataTables_paginate .paginate_button {
+  border-radius: 8px;
+  border: 1px solid transparent;
+}
+.dataTables_wrapper .dataTables_paginate .paginate_button.current,
+.dataTables_wrapper .dataTables_paginate .paginate_button.current:hover {
+  background: linear-gradient(135deg, rgba(43,108,176,.18), rgba(14,165,233,.18)) !important;
+  color: var(--ink) !important;
+  border-color: rgba(14,165,233,.35);
+}
+.dataTables_wrapper .dataTables_paginate .paginate_button:hover {
+  background: rgba(14,165,233,.12) !important;
+  color: var(--ink) !important;
+}
+
+/* Select2 essentials */
+.select2 { max-width: 100%; width: 100% !important; }
+.select2-selection--single,
+.select2-selection--multiple {
+  min-height: 44px;
+  border-radius: 10px !important;
+  border: 1px solid rgba(11,18,32,.12) !important;
+  padding: .25rem .5rem;
+}
+.select2-selection__rendered {
+  padding-bottom: 5px !important;
+  color: var(--ink) !important;
+}
+.select2-selection__placeholder { color: rgba(11,18,32,.5) !important; }
+.select2-selection__arrow { height: 100% !important; }
+.select2-container--default.select2-container--focus .select2-selection--single,
+.select2-container--default.select2-container--focus .select2-selection--multiple {
+  border-color: var(--brand) !important;
+  box-shadow: 0 0 0 .15rem rgba(43,108,176,.15);
+}
+.select2-dropdown {
+  border: 1px solid rgba(11,18,32,.12);
+  border-radius: 10px;
+  box-shadow: 0 10px 30px rgba(12,21,38,.1);
+}
+.select2-results__option {
+  padding-left: .75rem;
+  padding-right: .75rem;
+}
+.select2-results__option--highlighted {
+  background: rgba(14,165,233,.12) !important;
+  color: var(--ink) !important;
+}
+
+/* Validation helpers */
+.has-error .invalid-feedback { display: block !important; }
+.form-check.is-invalid ~ .invalid-feedback { display: block; }
+
+/* Info accents keep white text */
+.btn-info,
+.badge-info { color: #fff; }
+
+/* Sidebar items feel clickable */
+.sidebar .nav-item { cursor: pointer; }
+
+/* Neutral/ghost button (formerly .btn-default) */
+.btn-default {
+  color: var(--ink);
+  background-color: rgba(11,18,32,.05);
+  border-color: rgba(11,18,32,.08);
+  border-radius: 10px;
+}
+.btn-default:hover {
+  color: var(--ink);
+  background-color: rgba(43,108,176,.12);
+  border-color: rgba(43,108,176,.25);
+}
+.btn-default.focus,
+.btn-default:focus {
+  box-shadow: 0 0 0 .2rem rgba(43,108,176,.20);
+}
+
+/* Extra small buttons */
+.btn-group-xs > .btn,
+.btn-xs {
+  padding: .15rem .35rem;
+  font-size: 12px;
+  line-height: 1.5;
+  border-radius: 8px;
+}
+
+/* Searchable helpers */
+.searchable-title { font-weight: 800; color: var(--ink); }
+.searchable-fields { padding-left: .5rem; }
+.searchable-link { padding: 0 .5rem; border-radius: 8px; }
+.searchable-link:hover { cursor: pointer; background: rgba(14,165,233,.12); }
+
+/* Required asterisk */
+.form-group .required::after {
+  content: " *";
+  color: #ef4444;
+  font-weight: 700;
+}
+
+/* Sidebar brand hover consistency */
+.c-sidebar-brand .c-sidebar-brand-full:hover { color: inherit; }
+
+/* Small custom selects */
+.custom-select.form-control-sm {
+  padding: .25rem 1.5rem;
+  border-radius: 10px;
+  border: 1px solid rgba(11,18,32,.12);
+}
+.custom-select.form-control-sm:focus {
+  border-color: var(--brand);
+  box-shadow: 0 0 0 .15rem rgba(43,108,176,.15);
+}
+
+/* ===========================
+   Swipetrend Admin — Core Vars
+   =========================== */
+:root{
+  --brand:#2B6CB0;       /* Primary brand color (blue) */
+  --brand-2:#0EA5E9;     /* Accent color (light blue) */
+  --ink:#0b1220;         /* Default dark text color */
+  --sidebar-bg:#0c1526;  /* Sidebar base (deep ink) */
+  --sidebar-text:#c9d4ff;/* Default nav text */
+  --sidebar-dim:#8ea2c7; /* Muted text/icons */
+  --sidebar-active-bg:rgba(14,165,233,.16);
+  --sidebar-hover-bg:rgba(43,108,176,.12);
+  --sidebar-border:rgba(255,255,255,.06);
+}
+
+/* Height for full-viewport layouts */
+html, body { height: 100%; }
+
+/* ===========================
+   Auth (Login) Page
+   =========================== */
+body.login-page {
+  background: linear-gradient(135deg, var(--brand) 0%, var(--brand-2) 100%);
+}
+
+/* auth background layer (optional pattern) */
+.auth-bg {
+  min-height: 100vh;
+  display: grid;
+  place-items: center;
+  position: relative;
+  overflow: hidden;
+}
+.auth-bg::before {
+  content: "";
+  position: absolute;
+  inset: -10% -10% auto -10%;
+  height: 60%;
+  background:
+    radial-gradient(60rem 60rem at 10% 10%, rgba(255,255,255,0.10), transparent 40%),
+    radial-gradient(40rem 40rem at 90% 0%, rgba(255,255,255,0.06), transparent 40%);
+  pointer-events: none;
+}
+
+/* glass card */
+.auth-card {
+  --radius: 18px;
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  background: rgba(255,255,255,0.85);
+  border: 1px solid rgba(255,255,255,0.6);
+  border-radius: var(--radius);
+  box-shadow:
+    0 10px 30px rgba(0,0,0,0.08),
+    inset 0 1px 0 rgba(255,255,255,0.6);
+  color: var(--ink);
+}
+.auth-card .card-body { padding: clamp(1.25rem, 1.5vw + 1rem, 2rem); }
+
+.brand-title {
+  display: flex;
+  align-items: center;
+  gap: .6rem;
+  font-weight: 800;
+  letter-spacing: .2px;
+  color: var(--ink);
+  margin-bottom: .25rem;
+}
+.brand-subtitle { color: rgba(11,18,32,.7); margin-bottom: 1.25rem; }
+
+/* inputs + icons */
+.input-group .input-group-text {
+  background: transparent;
+  border-right: 0;
+  color: var(--brand);
+}
+.input-group .form-control { border-left: 0; }
+.form-control, .input-group-text {
+  height: 48px;
+  border-radius: 12px;
+  border-color: rgba(11,18,32,.12);
+}
+.form-control:focus {
+  border-color: var(--brand);
+  box-shadow: 0 0 0 .2rem rgba(43,108,176,0.15);
+}
+
+/* remember/forgot row */
+.auth-actions {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: .75rem;
+  margin: .25rem 0 1rem;
+}
+.small-muted { color: rgba(11,18,32,.65); }
+.auth-links a { text-decoration: none; font-weight: 600; color: var(--brand); }
+.auth-links a:hover { text-decoration: underline; }
+
+/* CTA button */
+.btn-brand {
+  --btn-shadow: 0 8px 18px rgba(43,108,176,0.25);
+  background: linear-gradient(135deg, var(--brand) 0%, var(--brand-2) 100%);
+  border: none;
+  color: #fff;
+  border-radius: 12px;
+  padding: 12px 18px;
+  font-weight: 700;
+  box-shadow: var(--btn-shadow);
+  transition: transform .08s ease, box-shadow .2s ease, opacity .2s ease;
+}
+.btn-brand:hover { transform: translateY(-1px); box-shadow: 0 10px 22px rgba(43,108,176,0.32); color:#fff; }
+.btn-brand:active { transform: translateY(0); }
+
+/* messages/errors */
+.alert { border-radius: 12px; }
+
+/* layout width on large screens */
+@media (min-width: 992px) { .auth-wrapper { width: 430px; } }
+
+/* Modal fixes (BS4 + CoreUI stacking) */
+.modal { z-index: 2005 !important; }
+.modal-backdrop { z-index: 2000 !important; }
+.modal-content { border-radius: 16px; border: none; }
+.modal-header .modal-title { font-weight: 700; color: var(--ink); }
+.modal-body p { color: rgba(11,18,32,.8); }
+.modal, .modal * { pointer-events: auto; }
+
+/* ===========================
+   Sidebar (CoreUI 3)
+   =========================== */
+#sidebar.c-sidebar {
+  background: radial-gradient(120% 120% at -20% -20%, rgba(14,165,233,.15) 0%, transparent 60%),
+              radial-gradient(110% 110% at 120% 0%, rgba(43,108,176,.18) 0%, transparent 55%),
+              var(--sidebar-bg);
+  color: var(--sidebar-text);
+  border-right: 1px solid var(--sidebar-border);
+}
+#sidebar .c-sidebar-brand {
+  background: linear-gradient(135deg, var(--brand) 0%, var(--brand-2) 100%);
+  color: #fff;
+  height: 64px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: inset 0 -1px 0 rgba(255,255,255,.25);
+}
+#sidebar .c-sidebar-brand a,
+#sidebar .c-sidebar-brand-full {
+  color:#fff !important; text-decoration:none; font-weight:800; letter-spacing:.3px;
+}
+
+/* Section title (optional in Blade) */
+#sidebar .c-sidebar-nav-title {
+  text-transform: uppercase;
+  font-size: .72rem;
+  letter-spacing: .12rem;
+  color: var(--sidebar-dim);
+  padding: 1rem 1rem .25rem;
+  margin-top: .25rem;
+}
+
+/* Links */
+#sidebar .c-sidebar-nav-link {
+  color: var(--sidebar-text);
+  border-radius: 12px;
+  margin: 4px 8px;
+  padding: .65rem .9rem;
+  transition: background .18s ease, color .15s ease, transform .06s ease;
+}
+#sidebar .c-sidebar-nav-link .c-sidebar-nav-icon {
+  color: var(--sidebar-dim);
+  margin-right: .55rem;
+  width: 1.1rem;
+  text-align: center;
+}
+#sidebar .c-sidebar-nav-link:hover {
+  background: var(--sidebar-hover-bg);
+  color: #eaf2ff;
+}
+#sidebar .c-sidebar-nav-link:hover .c-sidebar-nav-icon { color: #eaf2ff; }
+
+/* Active state */
+#sidebar .c-sidebar-nav-link.c-active,
+#sidebar .c-sidebar-nav-dropdown.c-show > .c-sidebar-nav-dropdown-toggle {
+  background: var(--sidebar-active-bg);
+  color: #fff;
+  position: relative;
+  box-shadow: inset 0 0 0 1px rgba(14,165,233,.25);
+}
+#sidebar .c-sidebar-nav-link.c-active::before,
+#sidebar .c-sidebar-nav-dropdown.c-show > .c-sidebar-nav-dropdown-toggle::before {
+  content:"";
+  position:absolute; left:6px; top:50%; transform:translateY(-50%);
+  width:4px; height:18px; border-radius:3px;
+  background: linear-gradient(180deg, var(--brand), var(--brand-2));
+}
+
+/* Dropdown toggles (chevron) */
+#sidebar .c-sidebar-nav-dropdown-toggle {
+  position: relative;
+  padding-right: 2rem;
+}
+#sidebar .c-sidebar-nav-dropdown-toggle::after {
+  border: none !important;
+  content: "\f054"; /* fa-chevron-right */
+  font-family: "Font Awesome 5 Free";
+  font-weight: 900;
+  color: var(--sidebar-dim);
+  right: .9rem;
+  transform: translateY(-50%) rotate(0deg);
+  top: 50%;
+}
+#sidebar .c-sidebar-nav-dropdown.c-show > .c-sidebar-nav-dropdown-toggle::after {
+  transform: translateY(-50%) rotate(90deg);
+  color: #fff;
+}
+
+/* Dropdown list items container */
+#sidebar .c-sidebar-nav-dropdown-items {
+  border-left: 1px dashed rgba(255,255,255,.12);
+  margin-left: .85rem;
+  padding-left: .25rem;
+}
+
+/* Child links */
+#sidebar .c-sidebar-nav-dropdown-items .c-sidebar-nav-link {
+  font-size: .94rem;
+  margin: 4px 8px 4px 4px;
+  padding: .5rem .75rem .5rem 2.1rem;
+  opacity: .95;
+}
+#sidebar .c-sidebar-nav-dropdown-items .c-sidebar-nav-link .c-sidebar-nav-icon {
+  width: .95rem;
+  margin-right: .5rem;
+}
+
+/* Logout accent */
+#sidebar .c-sidebar-nav-link .fa-sign-out-alt { color: #fca5a5; }
+#sidebar .c-sidebar-nav-link:hover .fa-sign-out-alt { color: #fecaca; }
+
+/* Themed scrollbar (WebKit) */
+#sidebar::-webkit-scrollbar { width: 10px; }
+#sidebar::-webkit-scrollbar-track { background: transparent; }
+#sidebar::-webkit-scrollbar-thumb {
+  background: linear-gradient(180deg, rgba(43,108,176,.45), rgba(14,165,233,.45));
+  border-radius: 8px;
+  border: 2px solid transparent;
+  background-clip: content-box;
+}
+
+/* Compact widths behave nicely */
+@media (max-width: 991.98px) {
+  #sidebar .c-sidebar-brand { height: 56px; }
+  #sidebar .c-sidebar-nav-link { margin: 4px 6px; }
+}
+
+/* ===========================
+   Swipetrend Admin — Dashboard
+   =========================== */
+
+/* Hero title */
+.dashboard-hero {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 1rem 1.25rem 0;
+}
+.dashboard-hero h2 {
+  margin: 0; font-weight: 800; letter-spacing:.2px; color: var(--ink);
+}
+.dashboard-hero .hero-sub {
+  color: rgba(11,18,32,.6); font-size: .95rem;
+}
+
+/* Stat cards */
+.stat-card {
+  position: relative;
+  border: 0;
+  border-radius: 16px;
+  overflow: hidden;
+  color: #fff;
+  background:
+    radial-gradient(120% 120% at 110% -10%, rgba(255,255,255,.18) 0%, transparent 40%),
+    linear-gradient(135deg, var(--brand) 0%, var(--brand-2) 100%);
+  box-shadow: 0 10px 30px rgba(43,108,176,.25);
+}
+.stat-card .card-body {
+  padding: 1.1rem 1.25rem 1.1rem 1.25rem;
+}
+.stat-meta {
+  display: flex; align-items: center; justify-content: space-between;
+  margin-bottom: .35rem; opacity: .95;
+}
+.stat-label { font-size: .95rem; font-weight: 600; }
+.stat-icon {
+  display:inline-grid; place-items:center;
+  width: 40px; height: 40px; border-radius: 12px;
+  background: rgba(255,255,255,.18);
+  box-shadow: inset 0 1px 0 rgba(255,255,255,.25);
+}
+.stat-value {
+  font-size: 2rem; line-height: 1.1; font-weight: 800; letter-spacing:.3px;
+}
+
+/* Table cards */
+.table-card h3 {
+  font-size: 1.05rem; font-weight: 800; color: var(--ink); margin: .25rem 0 0.75rem;
+}
+.table-modern {
+  border: 0; border-radius: 14px; overflow: hidden;
+  box-shadow: 0 8px 24px rgba(12,21,38,.07);
+}
+.table-modern thead th {
+  background: linear-gradient(135deg, rgba(43,108,176,.08), rgba(14,165,233,.08));
+  border-bottom: 0;
+  color: var(--ink);
+  font-weight: 700;
+}
+.table-modern tbody tr:hover { background: rgba(14,165,233,.06); }
+.table-modern td, .table-modern th { border-color: rgba(12,21,38,.08) !important; }
+
+/* success alert refine */
+.alert-success {
+  border: 0; border-radius: 12px; font-weight: 600;
+  box-shadow: 0 6px 18px rgba(16,185,129,.18);
+}
+
+/* ============== Permissions (Index) ============== */
+
+/* Page header */
+.page-header {
+  display: flex; align-items: center; justify-content: space-between;
+  margin-bottom: 0.75rem;
+}
+.page-title h2 { margin: 0; font-weight: 800; color: var(--ink); }
+.page-sub { margin: 0; color: rgba(11,18,32,.65); font-size: .95rem; }
+.page-actions .btn { white-space: nowrap; }
+
+/* Action buttons */
+.actions-group {
+  display: inline-flex; gap: .35rem; align-items: center;
+}
+.btn-ghost,
+.btn-ghost-info,
+.btn-ghost-danger {
+  border-radius: 10px;
+  border: 1px solid transparent;
+  background: rgba(11,18,32,.04);
+  color: var(--ink);
+  padding: .35rem .55rem;
+  transition: background .15s ease, border-color .15s ease, color .15s ease, box-shadow .15s ease;
+}
+.btn-ghost:hover { background: rgba(43,108,176,.12); color: var(--ink); }
+.btn-ghost-info { color: #0EA5E9; background: rgba(14,165,233,.08); }
+.btn-ghost-info:hover { background: rgba(14,165,233,.16); }
+.btn-ghost-danger { color: #ef4444; background: rgba(239,68,68,.08); }
+.btn-ghost-danger:hover { background: rgba(239,68,68,.16); }
+
+/* DataTables toolbar + inputs */
+.dt-toolbar { margin-bottom: .25rem; }
+.dataTables_wrapper .dataTables_length select,
+.dataTables_wrapper .dataTables_filter input {
+  border-radius: 10px;
+  border: 1px solid rgba(11,18,32,.12);
+  padding: .4rem .6rem;
+  outline: none;
+}
+.dataTables_wrapper .dataTables_filter input:focus,
+.dataTables_wrapper .dataTables_length select:focus {
+  border-color: var(--brand);
+  box-shadow: 0 0 0 .15rem rgba(43,108,176,.15);
+}
+.dataTables_wrapper .dt-buttons .btn,
+.dataTables_wrapper .dt-buttons .btn:focus {
+  border: 1px solid rgba(11,18,32,.12) !important;
+  background: #fff !important;
+  border-radius: 10px !important;
+  padding: .4rem .6rem !important;
+  color: var(--ink) !important;
+  box-shadow: 0 2px 10px rgba(12,21,38,.06);
+}
+.dataTables_wrapper .dt-buttons .btn:hover {
+  border-color: var(--brand) !important;
+  box-shadow: 0 4px 16px rgba(43,108,176,.15);
+}
+
+/* Table look (extends your .table-modern) */
+.table-modern thead th {
+  background: linear-gradient(135deg, rgba(43,108,176,.08), rgba(14,165,233,.08));
+  border-bottom: 0 !important;
+  font-weight: 700;
+}
+.table-modern td, .table-modern th { border-color: rgba(12,21,38,.08) !important; }
+.table-modern tbody tr:hover { background: rgba(14,165,233,.06); }
+
+/* Checkbox select column alignment (DataTables Select ext) */
+table.dataTable tbody td.select-checkbox::before,
+table.dataTable tbody td.select-checkbox::after,
+table.dataTable tbody th.select-checkbox::before,
+table.dataTable tbody th.select-checkbox::after {
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+/* Pagination look */
+.dataTables_wrapper .dataTables_paginate .paginate_button {
+  border-radius: 8px;
+  border: 1px solid transparent;
+}
+.dataTables_wrapper .dataTables_paginate .paginate_button.current,
+.dataTables_wrapper .dataTables_paginate .paginate_button.current:hover {
+  background: linear-gradient(135deg, rgba(43,108,176,.18), rgba(14,165,233,.18)) !important;
+  color: #0b1220 !important;
+  border-color: rgba(14,165,233,.35);
+}
+.dataTables_wrapper .dataTables_paginate .paginate_button:hover {
+  background: rgba(14,165,233,.12) !important;
+  color: #0b1220 !important;
+}
+
+/* ======= Show Page (Details) ======= */
+
+/* Reuse shared page header styles (if not already present) */
+.page-header {
+  display: flex; align-items: center; justify-content: space-between;
+  margin-bottom: 0.75rem;
+}
+.page-title h2 { margin: 0; font-weight: 800; color: var(--ink); }
+.page-sub { margin: 0; color: rgba(11,18,32,.65); font-size: .95rem; }
+.page-actions .btn { white-space: nowrap; }
+
+/* Action row at bottom of card */
+.show-actions { margin-top: .5rem; }
+
+/* Details table look */
+.table-show {
+  border: 0;
+  border-radius: 14px;
+  overflow: hidden;
+  box-shadow: 0 8px 24px rgba(12,21,38,.07);
+}
+.table-show tbody th {
+  width: 240px;
+  font-weight: 700;
+  color: var(--ink);
+  background: linear-gradient(135deg, rgba(43,108,176,.08), rgba(14,165,233,.08));
+  border-bottom: 0 !important;
+}
+.table-show tbody td {
+  background: #fff;
+}
+.table-show td, .table-show th {
+  border-color: rgba(12,21,38,.08) !important;
+}
+
+/* Ghost button family (if not already in your CSS) */
+.btn-ghost,
+.btn-ghost-info,
+.btn-ghost-danger {
+  border-radius: 10px;
+  border: 1px solid transparent;
+  background: rgba(11,18,32,.04);
+  color: var(--ink);
+  padding: .45rem .7rem;
+  transition: background .15s ease, border-color .15s ease, color .15s ease, box-shadow .15s ease;
+}
+.btn-ghost:hover { background: rgba(43,108,176,.12); color: var(--ink); }
+.btn-ghost-info { color: #0EA5E9; background: rgba(14,165,233,.08); }
+.btn-ghost-info:hover { background: rgba(14,165,233,.16); }
+.btn-ghost-danger { color: #ef4444; background: rgba(239,68,68,.08); }
+.btn-ghost-danger:hover { background: rgba(239,68,68,.16); }
+
+/* ======= Edit Page (Forms) ======= */
+
+.form-card {
+  border: 0;
+  border-radius: 16px;
+  box-shadow: 0 10px 30px rgba(12,21,38,.07);
+}
+
+.form-label {
+  font-weight: 700;
+  color: var(--ink);
+  margin-bottom: .35rem;
+}
+.form-label.required::after {
+  content: " *";
+  color: #ef4444;
+  font-weight: 700;
+}
+
+.help-block {
+  display: block;
+  margin-top: .25rem;
+  color: rgba(11,18,32,.6);
+  font-size: .9rem;
+}
+
+.form-actions {
+  margin-top: 1rem;
+  display: flex;
+  justify-content: flex-end;
+  gap: .5rem;
+}
+
+/* Optional: lighten invalid border to match theme */
+.is-invalid {
+  border-color: rgba(239,68,68,.8) !important;
+}
+.is-invalid:focus {
+  box-shadow: 0 0 0 .15rem rgba(239,68,68,.18) !important;
+}
