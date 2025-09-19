@@ -3,6 +3,24 @@
     $action = $isEdit
         ? route('admin.highlights.update', $highlight->id)
         : route('admin.highlights.store');
+
+    // Prepare existing image metadata for Dropzone preload (edit mode)
+    $existingImagePayload = null;
+    if ($isEdit && isset($highlight) && $highlight->image) {
+        $media = $highlight->image;
+        // Prefer preview/thumbnail if provided by your MediaUploadingTrait, else fallback to original URL
+        $previewUrl = $media->preview
+            ?? $media->preview_url
+            ?? $media->thumbnail
+            ?? $media->url
+            ?? (method_exists($media, 'getUrl') ? $media->getUrl() : null);
+
+        $existingImagePayload = [
+            'file_name' => $media->file_name ?? null,
+            'preview'   => $previewUrl,
+            'size'      => $media->size ?? null,
+        ];
+    }
 @endphp
 
 <form id="highlightForm" method="POST" action="{{ $action }}" enctype="multipart/form-data">
@@ -27,7 +45,11 @@
 
     <div class="form-group">
         <label class="required" for="image">{{ trans('cruds.highlight.fields.image') }}</label>
-        <div class="needsclick dropzone" id="image-dropzone"></div>
+        <div
+            class="needsclick dropzone"
+            id="image-dropzone"
+            data-existing='@json($existingImagePayload)'
+        ></div>
         <span class="help-block">{{ trans('cruds.highlight.fields.image_helper') }}</span>
     </div>
 
@@ -36,5 +58,3 @@
         <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
     </div>
 </form>
-
-

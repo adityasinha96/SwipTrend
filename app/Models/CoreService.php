@@ -19,6 +19,7 @@ class CoreService extends Model implements HasMedia
 
     protected $appends = [
         'brochure',
+        'image', // <- NEW
     ];
 
     protected $dates = [
@@ -30,6 +31,7 @@ class CoreService extends Model implements HasMedia
     protected $fillable = [
         'service_name',
         'description',
+        // no need for 'image' field here (Spatie handles it)
         'created_at',
         'updated_at',
         'deleted_at',
@@ -42,6 +44,7 @@ class CoreService extends Model implements HasMedia
 
     public function registerMediaConversions(Media $media = null): void
     {
+        // Will work for 'image' collection; harmless for docs (brochure)
         $this->addMediaConversion('thumb')->fit('crop', 50, 50);
         $this->addMediaConversion('preview')->fit('crop', 120, 120);
     }
@@ -49,5 +52,17 @@ class CoreService extends Model implements HasMedia
     public function getBrochureAttribute()
     {
         return $this->getMedia('brochure')->last();
+    }
+
+    // NEW: cover image accessor (like your Highlight model)
+    public function getImageAttribute()
+    {
+        $file = $this->getMedia('image')->last();
+        if ($file) {
+            $file->url       = $file->getUrl();
+            $file->thumbnail = $file->getUrl('thumb');
+            $file->preview   = $file->getUrl('preview');
+        }
+        return $file;
     }
 }

@@ -27,7 +27,7 @@
         <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
           <li class="nav-item"><a class="nav-link active" href="index.html">Home</a></li>
           <li class="nav-item"><a class="nav-link" href="about.html">About</a></li>
-          <li class="nav-item"><a class="nav-link" href="services.html">Services</a></li>
+          <li class="nav-item"><a class="nav-link" href="{{route('services')}}">Services</a></li>
           <li class="nav-item"><a class="nav-link" href="catalogue.html">Catalogue</a></li>
           <li class="nav-item"><a class="nav-link" href="contact.html">Contact</a></li>
           <li class="nav-item ms-lg-3"><a class="btn btn-primary px-3" href="#enquire">Get a Quote</a></li>

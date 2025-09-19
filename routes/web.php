@@ -1,5 +1,8 @@
 <?php
 
+use App\Http\Controllers\Frontend\IndexController;
+use App\Http\Controllers\Frontend\ServicesController;
+
 Route::get('/', function () {
     return view('index');
 });
@@ -90,3 +93,9 @@ Route::group(['prefix' => 'profile', 'as' => 'profile.', 'namespace' => 'Auth', 
         Route::post('profile/destroy', 'ChangePasswordController@destroy')->name('password.destroyProfile');
     }
 });
+
+//Frontend Controller
+
+Route::get('/', [IndexController::class, 'index'])->name('home');
+Route::get('/services', [ServicesController::class, 'index'])->name('services');
+

@@ -89,38 +89,25 @@
 
 <!-- Highlights -->
 <section class="py-5 bg-light">
-<div class="container">
-    <div class="row g-4">
-    <div class="col-6 col-lg-3">
-        <div class="feature-card h-100">
-        <img src="{{asset('frontend/assets/img/resendincal-commercial.png')}}" class="rounded-3 mb-3 w-100" alt="Residential & Commercial" />
-        <h6>Residential & Commercial</h6>
-        <p class="mb-0 small text-body-secondary">Tailored solutions for homes, offices, hotels and more.</p>
+    <div class="container">
+        <div class="row g-4">
+
+            @foreach($highlights as $item)
+                <div class="col-6 col-lg-3">
+                    <div class="feature-card h-100">
+                        <img src="{{ $item->image?->url ?? asset('frontend/assets/img/placeholder.png') }}"
+                             class="rounded-3 mb-3 w-100"
+                             alt="{{ $item->service_name }}">
+                        <h6>{{ $item->service_name }}</h6>
+                        <p class="mb-0 small text-body-secondary">
+                            {{ $item->service_description }}
+                        </p>
+                    </div>
+                </div>
+            @endforeach
+
         </div>
     </div>
-    <div class="col-6 col-lg-3">
-        <div class="feature-card h-100">
-        <img src="{{asset('frontend/assets/img/VRF & Ductable Expertise.png')}}" class="rounded-3 mb-3 w-100" alt="VRF & Ductable Expertise" />
-        <h6>VRF & Ductable Expertise</h6>
-        <p class="mb-0 small text-body-secondary">From design assistance to installation & commissioning.</p>
-        </div>
-    </div>
-    <div class="col-6 col-lg-3">
-        <div class="feature-card h-100">
-        <img src="{{asset('frontend/assets/img/Chillers & Air Renovation.png')}}" class="rounded-3 mb-3 w-100" alt="Chillers & Air Renovation" />
-        <h6>Chillers & Air Renovation</h6>
-        <p class="mb-0 small text-body-secondary">Comfort solutions with energy-efficiency in focus.</p>
-        </div>
-    </div>
-    <div class="col-6 col-lg-3">
-        <div class="feature-card h-100">
-        <img src="{{asset('frontend/assets/img/Controls & Automation.png')}}" class="rounded-3 mb-3 w-100" alt="Controls & Automation" />
-        <h6>Controls & Automation</h6>
-        <p class="mb-0 small text-body-secondary">airCloud™ integration, BMS-ready setups.</p>
-        </div>
-    </div>
-    </div>
-</div>
 </section>
 
 <!-- About -->

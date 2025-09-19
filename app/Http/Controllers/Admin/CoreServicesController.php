@@ -10,6 +10,7 @@ use App\Http\Requests\UpdateCoreServiceRequest;
 use App\Models\CoreService;
 use Gate;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
 use Spatie\MediaLibrary\MediaCollections\Models\Media;
 use Symfony\Component\HttpFoundation\Response;
 use Yajra\DataTables\Facades\DataTables;
@@ -22,7 +23,7 @@ class CoreServicesController extends Controller
     {
         abort_if(Gate::denies('core_service_access'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
-        if ($request->ajax()) {
+        if ($request->ajax() && $request->has('draw')) {
             $query = CoreService::query()->select(sprintf('%s.*', (new CoreService)->table));
             $table = Datatables::of($query);
 
@@ -44,17 +45,28 @@ class CoreServicesController extends Controller
                 ));
             });
 
-            $table->editColumn('id', function ($row) {
-                return $row->id ? $row->id : '';
-            });
-            $table->editColumn('service_name', function ($row) {
-                return $row->service_name ? $row->service_name : '';
-            });
-            $table->editColumn('brochure', function ($row) {
-                return $row->brochure ? '<a href="' . $row->brochure->getUrl() . '" target="_blank">' . trans('global.downloadFile') . '</a>' : '';
+            $table->editColumn('id', fn ($row) => $row->id ?: '');
+            $table->editColumn('service_name', fn ($row) => $row->service_name ?: '');
+
+            // Image thumbnail column
+            $table->addColumn('image', function ($row) {
+                $img = $row->getMedia('image')->last();
+                if ($img) {
+                    $src = $img->getUrl('thumb');
+                    return '<img src="'.$src.'" alt="img" width="50" height="50" class="rounded">';
+                }
+                return '';
             });
 
-            $table->rawColumns(['actions', 'placeholder', 'brochure']);
+            // Brochure link column
+            $table->editColumn('brochure', function ($row) {
+                $file = $row->getMedia('brochure')->last();
+                return $file
+                    ? '<a href="'.$file->getUrl().'" target="_blank">'.trans('global.downloadFile').'</a>'
+                    : '';
+            });
+
+            $table->rawColumns(['actions', 'placeholder', 'image', 'brochure']);
 
             return $table->make(true);
         }
@@ -66,47 +78,136 @@ class CoreServicesController extends Controller
     {
         abort_if(Gate::denies('core_service_create'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
+        if (request()->ajax()) {
+            $coreService = null;
+            return view('admin.coreServices._form', compact('coreService'));
+        }
+
         return view('admin.coreServices.create');
     }
 
     public function store(StoreCoreServiceRequest $request)
     {
-        $coreService = CoreService::create($request->all());
+        try {
+            $coreService = CoreService::create($request->all());
 
-        if ($request->input('brochure', false)) {
-            $coreService->addMedia(storage_path('tmp/uploads/' . basename($request->input('brochure'))))->toMediaCollection('brochure');
+            // Image
+            if ($request->input('image', false)) {
+                $coreService->addMedia(storage_path('tmp/uploads/' . basename($request->input('image'))))
+                    ->toMediaCollection('image');
+            }
+
+            // Brochure
+            if ($request->input('brochure', false)) {
+                $coreService->addMedia(storage_path('tmp/uploads/' . basename($request->input('brochure'))))
+                    ->toMediaCollection('brochure');
+            }
+
+            if ($media = $request->input('ck-media', false)) {
+                Media::whereIn('id', $media)->update(['model_id' => $coreService->id]);
+            }
+
+            if ($request->ajax() || $request->wantsJson()) {
+                return response()->json(['ok' => true, 'id' => $coreService->id], 200);
+            }
+
+            return redirect()->route('core-services.index');
+
+        } catch (\Throwable $e) {
+            Log::error('CoreService STORE failed', [
+                'message' => $e->getMessage(),
+                'line'    => $e->getLine(),
+                'file'    => $e->getFile(),
+                'trace'   => substr($e->getTraceAsString(), 0, 2000),
+                'payload' => $request->all(),
+            ]);
+
+            if ($request->ajax() || $request->wantsJson()) {
+                return response()->json([
+                    'message' => 'Failed to create Core Service',
+                    'error'   => $e->getMessage(),
+                ], 500);
+            }
+
+            abort(500, 'Failed to create Core Service');
         }
-
-        if ($media = $request->input('ck-media', false)) {
-            Media::whereIn('id', $media)->update(['model_id' => $coreService->id]);
-        }
-
-        return redirect()->route('admin.core-services.index');
     }
 
     public function edit(CoreService $coreService)
     {
         abort_if(Gate::denies('core_service_edit'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
+        if (request()->ajax()) {
+            return view('admin.coreServices._form', compact('coreService'));
+        }
+
         return view('admin.coreServices.edit', compact('coreService'));
     }
 
     public function update(UpdateCoreServiceRequest $request, CoreService $coreService)
     {
-        $coreService->update($request->all());
+        try {
+            $coreService->update($request->all());
 
-        if ($request->input('brochure', false)) {
-            if (! $coreService->brochure || $request->input('brochure') !== $coreService->brochure->file_name) {
-                if ($coreService->brochure) {
-                    $coreService->brochure->delete();
+            // Image
+            if ($request->input('image', false)) {
+                $existing = $coreService->getMedia('image')->last();
+                if (! $existing || $request->input('image') !== $existing->file_name) {
+                    if ($existing) {
+                        $existing->delete();
+                    }
+                    $coreService->addMedia(storage_path('tmp/uploads/' . basename($request->input('image'))))
+                        ->toMediaCollection('image');
                 }
-                $coreService->addMedia(storage_path('tmp/uploads/' . basename($request->input('brochure'))))->toMediaCollection('brochure');
+            } else {
+                $existing = $coreService->getMedia('image')->last();
+                if ($existing) {
+                    $existing->delete();
+                }
             }
-        } elseif ($coreService->brochure) {
-            $coreService->brochure->delete();
-        }
 
-        return redirect()->route('admin.core-services.index');
+            // Brochure
+            if ($request->input('brochure', false)) {
+                $existing = $coreService->getMedia('brochure')->last();
+                if (! $existing || $request->input('brochure') !== $existing->file_name) {
+                    if ($existing) {
+                        $existing->delete();
+                    }
+                    $coreService->addMedia(storage_path('tmp/uploads/' . basename($request->input('brochure'))))
+                        ->toMediaCollection('brochure');
+                }
+            } else {
+                $existing = $coreService->getMedia('brochure')->last();
+                if ($existing) {
+                    $existing->delete();
+                }
+            }
+
+            if ($request->ajax() || $request->wantsJson()) {
+                return response()->json(['ok' => true, 'id' => $coreService->id], 200);
+            }
+
+            return redirect()->route('core-services.index');
+
+        } catch (\Throwable $e) {
+            Log::error('CoreService UPDATE failed', [
+                'message' => $e->getMessage(),
+                'line'    => $e->getLine(),
+                'file'    => $e->getFile(),
+                'trace'   => substr($e->getTraceAsString(), 0, 2000),
+                'payload' => $request->all(),
+                'id'      => $coreService->id,
+            ]);
+
+            if ($request->ajax() || $request->wantsJson()) {
+                return response()->json([
+                    'message' => 'Failed to update Core Service',
+                    'error'   => $e->getMessage(),
+                ], 500);
+            }
+
+            abort(500, 'Failed to update Core Service');
+        }
     }
 
     public function show(CoreService $coreService)

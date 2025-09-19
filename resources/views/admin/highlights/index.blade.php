@@ -5,7 +5,7 @@
         <div class="col-lg-12">
             {{-- Add button opens modal --}}
             <button id="btnAddHighlight"
-                    class="btn btn-success"
+                    class="btn btn-brand"
                     data-url="{{ route('admin.highlights.create') }}"
                     {{ ($currentCount ?? 0) >= 4 ? 'disabled' : '' }}>
                 {{ trans('global.add') }} {{ trans('cruds.highlight.title_singular') }}
