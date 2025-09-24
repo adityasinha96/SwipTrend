@@ -1,14 +1,33 @@
 @extends('layouts.admin')
 @section('content')
+
+@php
+    // Quick count to decide whether to allow creating another Terms & Conditions
+    $termsCount = \App\Models\TermsCondition::count();
+@endphp
+
 @can('terms_condition_create')
     <div style="margin-bottom: 10px;" class="row">
         <div class="col-lg-12">
-            <a class="btn btn-success" href="{{ route('admin.terms-conditions.create') }}">
-                {{ trans('global.add') }} {{ trans('cruds.termsCondition.title_singular') }}
-            </a>
+            @if ($termsCount < 1)
+                {{-- Normal create button when there is no record yet --}}
+                <a class="btn btn-brand" href="{{ route('admin.terms-conditions.create') }}">
+                    {{ trans('global.add') }} {{ trans('cruds.termsCondition.title_singular') }}
+                </a>
+            @else
+                {{-- Disabled when a record already exists --}}
+                <button type="button" class="btn btn-secondary" disabled
+                        title="Only one Terms & Conditions entry is allowed. Edit the existing one.">
+                    {{ trans('global.add') }} {{ trans('cruds.termsCondition.title_singular') }}
+                </button>
+                <small class="text-muted d-block mt-1">
+                    One Terms & Conditions entry already exists — please edit it instead of creating a new one.
+                </small>
+            @endif
         </div>
     </div>
 @endcan
+
 <div class="card">
     <div class="card-header">
         {{ trans('cruds.termsCondition.title_singular') }} {{ trans('global.list') }}
@@ -18,33 +37,25 @@
         <table class=" table table-bordered table-striped table-hover ajaxTable datatable datatable-TermsCondition">
             <thead>
                 <tr>
-                    <th width="10">
-
-                    </th>
-                    <th>
-                        {{ trans('cruds.termsCondition.fields.id') }}
-                    </th>
-                    <th>
-                        {{ trans('cruds.termsCondition.fields.title') }}
-                    </th>
-                    <th>
-                        &nbsp;
-                    </th>
+                    <th width="10"></th>
+                    <th>{{ trans('cruds.termsCondition.fields.id') }}</th>
+                    <th>{{ trans('cruds.termsCondition.fields.title') }}</th>
+                    <th>&nbsp;</th>
                 </tr>
             </thead>
         </table>
     </div>
 </div>
 
-
-
 @endsection
+
 @section('scripts')
 @parent
 <script>
-    $(function () {
+$(function () {
   let dtButtons = $.extend(true, [], $.fn.dataTable.defaults.buttons)
-@can('terms_condition_delete')
+
+  @can('terms_condition_delete')
   let deleteButtonTrans = '{{ trans('global.datatables.delete') }}';
   let deleteButton = {
     text: deleteButtonTrans,
@@ -52,12 +63,11 @@
     className: 'btn-danger',
     action: function (e, dt, node, config) {
       var ids = $.map(dt.rows({ selected: true }).data(), function (entry) {
-          return entry.id
+        return entry.id
       });
 
       if (ids.length === 0) {
         alert('{{ trans('global.datatables.zero_selected') }}')
-
         return
       }
 
@@ -66,13 +76,13 @@
           headers: {'x-csrf-token': _token},
           method: 'POST',
           url: config.url,
-          data: { ids: ids, _method: 'DELETE' }})
-          .done(function () { location.reload() })
+          data: { ids: ids, _method: 'DELETE' }
+        }).done(function () { location.reload() })
       }
     }
   }
   dtButtons.push(deleteButton)
-@endcan
+  @endcan
 
   let dtOverrideGlobals = {
     buttons: dtButtons,
@@ -83,21 +93,20 @@
     ajax: "{{ route('admin.terms-conditions.index') }}",
     columns: [
       { data: 'placeholder', name: 'placeholder' },
-{ data: 'id', name: 'id' },
-{ data: 'title', name: 'title' },
-{ data: 'actions', name: '{{ trans('global.actions') }}' }
+      { data: 'id', name: 'id' },
+      { data: 'title', name: 'title' },
+      { data: 'actions', name: '{{ trans('global.actions') }}' }
     ],
     orderCellsTop: true,
     order: [[ 1, 'desc' ]],
     pageLength: 100,
   };
-  let table = $('.datatable-TermsCondition').DataTable(dtOverrideGlobals);
-  $('a[data-toggle="tab"]').on('shown.bs.tab click', function(e){
-      $($.fn.dataTable.tables(true)).DataTable()
-          .columns.adjust();
-  });
-  
-});
 
+  let table = $('.datatable-TermsCondition').DataTable(dtOverrideGlobals);
+
+  $('a[data-toggle="tab"]').on('shown.bs.tab click', function(e){
+    $($.fn.dataTable.tables(true)).DataTable().columns.adjust();
+  });
+});
 </script>
 @endsection

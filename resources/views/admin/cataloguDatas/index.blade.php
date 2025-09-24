@@ -3,7 +3,7 @@
 @can('catalogu_data_create')
     <div style="margin-bottom: 10px;" class="row">
         <div class="col-lg-12">
-            <a class="btn btn-success" href="{{ route('admin.catalogu-datas.create') }}">
+            <a class="btn btn-brand" href="{{ route('admin.catalogu-datas.create') }}">
                 {{ trans('global.add') }} {{ trans('cruds.cataloguData.title_singular') }}
             </a>
         </div>
@@ -19,10 +19,7 @@
             <thead>
                 <tr>
                     <th width="10">
-
-                    </th>
-                    <th>
-                        {{ trans('cruds.cataloguData.fields.id') }}
+                        {{-- placeholder --}}
                     </th>
                     <th>
                         {{ trans('cruds.cataloguData.fields.catalogue_category') }}
@@ -44,14 +41,12 @@
         </table>
     </div>
 </div>
-
-
-
 @endsection
+
 @section('scripts')
 @parent
 <script>
-    $(function () {
+$(function () {
   let dtButtons = $.extend(true, [], $.fn.dataTable.defaults.buttons)
 @can('catalogu_data_delete')
   let deleteButtonTrans = '{{ trans('global.datatables.delete') }}';
@@ -66,7 +61,6 @@
 
       if (ids.length === 0) {
         alert('{{ trans('global.datatables.zero_selected') }}')
-
         return
       }
 
@@ -75,8 +69,8 @@
           headers: {'x-csrf-token': _token},
           method: 'POST',
           url: config.url,
-          data: { ids: ids, _method: 'DELETE' }})
-          .done(function () { location.reload() })
+          data: { ids: ids, _method: 'DELETE' }
+        }).done(function () { location.reload() })
       }
     }
   }
@@ -92,24 +86,23 @@
     ajax: "{{ route('admin.catalogu-datas.index') }}",
     columns: [
       { data: 'placeholder', name: 'placeholder' },
-{ data: 'id', name: 'id' },
-{ data: 'catalogue_category_category_name', name: 'catalogue_category.category_name' },
-{ data: 'name', name: 'name' },
-{ data: 'upload_brochure', name: 'upload_brochure', sortable: false, searchable: false },
-{ data: 'image', name: 'image', sortable: false, searchable: false },
-{ data: 'actions', name: '{{ trans('global.actions') }}' }
+      { data: 'catalogue_category_category_name', name: 'catalogue_category.category_name' },
+      { data: 'name', name: 'name' },
+      { data: 'upload_brochure', name: 'upload_brochure', sortable: false, searchable: false },
+      { data: 'image', name: 'image', sortable: false, searchable: false },
+      { data: 'actions', name: '{{ trans('global.actions') }}' }
     ],
     orderCellsTop: true,
+    // Previously sorted by ID (column index 1); with ID removed we keep a simple default:
     order: [[ 1, 'desc' ]],
     pageLength: 100,
   };
-  let table = $('.datatable-CataloguData').DataTable(dtOverrideGlobals);
-  $('a[data-toggle="tab"]').on('shown.bs.tab click', function(e){
-      $($.fn.dataTable.tables(true)).DataTable()
-          .columns.adjust();
-  });
-  
-});
 
+  let table = $('.datatable-CataloguData').DataTable(dtOverrideGlobals);
+
+  $('a[data-toggle="tab"]').on('shown.bs.tab click', function(e){
+      $($.fn.dataTable.tables(true)).DataTable().columns.adjust();
+  });
+});
 </script>
 @endsection

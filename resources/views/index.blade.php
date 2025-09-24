@@ -1,5 +1,5 @@
 @extends('web_master')
-@section('main')   
+@section('main')
 
 <!-- Hero with form -->
 <section id="home" class="hero d-flex align-items-center">
@@ -86,7 +86,6 @@
        src="https://images.unsplash.com/photo-1581093458791-9d09f1cbf3b3?q=80&w=1600&auto=format&fit=crop"/>
 </section>
 
-
 <!-- Highlights -->
 <section class="py-5 bg-light">
     <div class="container">
@@ -139,119 +138,108 @@
 </div>
 </section>
 
-<!-- Services with dummy images -->
+<!-- Services (dynamic) -->
 <section id="services" class="section">
-<div class="container">
+  <div class="container">
     <div class="text-center mb-5">
-    <span class="eyebrow">What we do</span>
-    <h2 class="fw-800">Professional Installation & Support</h2>
-    <p class="text-body-secondary">Timely delivery • Clean execution • After‑sales assistance</p>
-    </div>
-    <div class="row g-4">
-    <div class="col-md-6 col-lg-4">
-        <div class="service-card h-100">
-        <img src="{{asset('frontend/assets/img/Split AC Installation.png')}}" class="rounded-3 mb-3 w-100" alt="Split AC Installation" />
-        <h5>Split AC Installation</h5>
-        <p class="small text-body-secondary">Energy‑efficient comfort for homes & small offices.</p>
-        </div>
-    </div>
-    <div class="col-md-6 col-lg-4">
-        <div class="service-card h-100">
-        <img src="{{asset('frontend/assets/img/Window AC Installation.png')}}" class="rounded-3 mb-3 w-100" alt="Window AC Installation" />
-        <h5>Window AC Installation</h5>
-        <p class="small text-body-secondary">Fast, reliable installs with tidy finishing.</p>
-        </div>
-    </div>
-    <div class="col-md-6 col-lg-4">
-        <div class="service-card h-100">
-        <img src="{{asset('frontend/assets/img/VRF System Installation.png')}}" class="rounded-3 mb-3 w-100" alt="VRF System Installation" />
-        <h5>VRF System Installation</h5>
-        <p class="small text-body-secondary">High‑efficiency variable refrigerant flow projects.</p>
-        </div>
-    </div>
-    <div class="col-md-6 col-lg-4">
-        <div class="service-card h-100">
-        <img src="{{asset('frontend/assets/img/Ductable AC Installation.png')}}" class="rounded-3 mb-3 w-100" alt="Ductable AC Installation" />
-        <h5>Ductable AC Installation</h5>
-        <p class="small text-body-secondary">Uniform cooling for large halls & showrooms.</p>
-        </div>
-    </div>
-    <div class="col-md-6 col-lg-4">
-        <div class="service-card h-100">
-        <img src="{{asset('frontend/assets/img/Cassette AC Installation.png')}}" class="rounded-3 mb-3 w-100" alt="Cassette AC Installation" />
-        <h5>Cassette AC Installation</h5>
-        <p class="small text-body-secondary">Aesthetic in‑ceiling comfort for premium spaces.</p>
-        </div>
-    </div>
-    <div class="col-md-6 col-lg-4">
-        <div class="service-card h-100">
-        <img src="{{asset('frontend/assets/img/Controls & BMS.png')}}" class="rounded-3 mb-3 w-100" alt="Controls & BMS" />
-        <h5>Controls & BMS</h5>
-        <p class="small text-body-secondary">airCloud™ control, smart scheduling & integration.</p>
-        </div>
-    </div>
-    </div>
-</div>
-</section>
-
-<!-- Catalogue -->
-<section id="catalogue" class="section bg-light">
-<div class="container">
-    <div class="text-center mb-5">
-    <span class="eyebrow">Catalogue</span>
-    <h2 class="fw-800">Hitachi Product Range</h2>
-    <p class="text-body-secondary">Room ACs • Light Commercial • VRF</p>
+      <span class="eyebrow">What we do</span>
+      <h2 class="fw-800">Professional Installation & Support</h2>
+      <p class="text-body-secondary">Timely delivery • Clean execution • After-sales assistance</p>
     </div>
 
     <div class="row g-4">
-    <div class="col-md-6 col-lg-4">
-        <div class="catalog-card h-100">
-        <img class="w-100 rounded-3" alt="Room AC Catalogue" 
-                src="{{asset('frontend/assets/img/Room Air Conditioners (2024).png')}}">
-        <div class="p-3">
-            <h6 class="mb-1">Room Air Conditioners (2024)</h6>
-            <p class="small text-body-secondary mb-3">Xpandable+, Long Air Throw, FrostWash & more.</p>
-            <div class="d-flex gap-2">
-            <a class="btn btn-sm btn-primary" href="{{asset('frontend/assets/pdf/room-ac.pdf')}}" target="_blank">View PDF</a>
-            <a class="btn btn-sm btn-outline-secondary" href="{{asset('frontend/assets/pdf/room-ac.pdf')}}" download="Room-AC-2024.pdf">Export</a>
-            </div>
+      @forelse($services as $service)
+        <div class="col-md-6 col-lg-4">
+          <div class="service-card h-100">
+            @if($service->image)
+              <img
+                src="{{ $service->image->url }}"
+                class="rounded-3 mb-3 w-100"
+                alt="{{ $service->service_name }}">
+            @endif
+
+            <h5 class="mb-1">{{ $service->service_name }}</h5>
+
+            @if($service->description)
+              <p class="small text-body-secondary mb-0">
+                {!! \Illuminate\Support\Str::limit(strip_tags($service->description), 140) !!}
+              </p>
+            @endif
+          </div>
         </div>
+      @empty
+        <div class="col-12">
+          <div class="alert alert-info mb-0">Services will appear here soon.</div>
         </div>
-    </div>
-    <div class="col-md-6 col-lg-4">
-        <div class="catalog-card h-100">
-        <img class="w-100 rounded-3" alt="Light Commercial Brochure" 
-                src="{{asset('frontend/assets/img/Light Commercial Range (2024).png')}}">
-        <div class="p-3">
-            <h6 class="mb-1">Light Commercial Range (2024)</h6>
-            <p class="small text-body-secondary mb-3">Ductable, Concealed, Flexi Split & Cassette ACs.</p>
-            <div class="d-flex gap-2">
-            <a class="btn btn-sm btn-primary" href="{{asset('frontend/assets/pdf/LCR.pdf')}}" target="_blank">View PDF</a>
-            <a class="btn btn-sm btn-outline-secondary" href="{{asset('frontend/assets/pdf/LCR.pdf')}}" download="Light-Commercial-Range-2024.pdf">Export</a>
-            </div>
-        </div>
-        </div>
-    </div>
-    <div class="col-md-6 col-lg-4">
-        <div class="catalog-card h-100">
-        <img class="w-100 rounded-3" alt="VRF 365 Air Max" 
-                src="{{asset('frontend/assets/img/VRF 365 AIR MAX.png')}}">
-        <div class="p-3">
-            <h6 class="mb-1">VRF 365 AIR MAX</h6>
-            <p class="small text-body-secondary mb-3">High-ambient VRF with smart controls.</p>
-            <div class="d-flex gap-2">
-            <a class="btn btn-sm btn-primary" href="{{asset('frontend/assets/pdf/VRF.pdf')}}" target="_blank">View PDF</a>
-            <a class="btn btn-sm btn-outline-secondary" href="{{asset('frontend/assets/pdf/VRF.pdf')}}" download="VRF-365-AIR-MAX.pdf">Export</a>
-            </div>
-        </div>
-        </div>
-    </div>
+      @endforelse
     </div>
 
     <div class="text-center mt-4">
-    <a class="btn btn-outline-dark" href="#enquire"><i class="bi bi-download me-2"></i>Request Full Catalogue</a>
+      <a class="btn btn-outline-primary" href="{{ route('services') }}">View all services</a>
+      <a class="btn btn-primary ms-2" href="{{ url('/#enquire') }}">Get a Quote</a>
     </div>
-</div>
+  </div>
+</section>
+
+
+<!-- Catalogue -->
+<section id="catalogue" class="section bg-light">
+  <div class="container">
+      <div class="text-center mb-5">
+        <span class="eyebrow">Catalogue</span>
+        <h2 class="fw-800">Hitachi Product Range</h2>
+        <p class="text-body-secondary">Room ACs • Light Commercial • VRF</p>
+      </div>
+
+      <div class="row g-4">
+        <div class="col-md-6 col-lg-4">
+            <div class="catalog-card h-100">
+            <img class="w-100 rounded-3" alt="Room AC Catalogue" 
+                    src="{{asset('frontend/assets/img/Room Air Conditioners (2024).png')}}">
+            <div class="p-3">
+                <h6 class="mb-1">Room Air Conditioners (2024)</h6>
+                <p class="small text-body-secondary mb-3">Xpandable+, Long Air Throw, FrostWash & more.</p>
+                <div class="d-flex gap-2">
+                <a class="btn btn-sm btn-primary" href="{{asset('frontend/assets/pdf/room-ac.pdf')}}" target="_blank">View PDF</a>
+                <a class="btn btn-sm btn-outline-secondary" href="{{asset('frontend/assets/pdf/room-ac.pdf')}}" download="Room-AC-2024.pdf">Export</a>
+                </div>
+            </div>
+            </div>
+        </div>
+        <div class="col-md-6 col-lg-4">
+            <div class="catalog-card h-100">
+            <img class="w-100 rounded-3" alt="Light Commercial Brochure" 
+                    src="{{asset('frontend/assets/img/Light Commercial Range (2024).png')}}">
+            <div class="p-3">
+                <h6 class="mb-1">Light Commercial Range (2024)</h6>
+                <p class="small text-body-secondary mb-3">Ductable, Concealed, Flexi Split & Cassette ACs.</p>
+                <div class="d-flex gap-2">
+                  <a class="btn btn-sm btn-primary" href="{{asset('frontend/assets/pdf/LCR.pdf')}}" target="_blank">View PDF</a>
+                  <a class="btn btn-sm btn-outline-secondary" href="{{asset('frontend/assets/pdf/LCR.pdf')}}" download="Light-Commercial-Range-2024.pdf">Export</a>
+                </div>
+            </div>
+            </div>
+        </div>
+        <div class="col-md-6 col-lg-4">
+            <div class="catalog-card h-100">
+            <img class="w-100 rounded-3" alt="VRF 365 Air Max" 
+                    src="{{asset('frontend/assets/img/VRF 365 AIR MAX.png')}}">
+            <div class="p-3">
+                <h6 class="mb-1">VRF 365 AIR MAX</h6>
+                <p class="small text-body-secondary mb-3">High-ambient VRF with smart controls.</p>
+                <div class="d-flex gap-2">
+                  <a class="btn btn-sm btn-primary" href="{{asset('frontend/assets/pdf/VRF.pdf')}}" target="_blank">View PDF</a>
+                  <a class="btn btn-sm btn-outline-secondary" href="{{asset('frontend/assets/pdf/VRF.pdf')}}" download="VRF-365-AIR-MAX.pdf">Export</a>
+                </div>
+            </div>
+            </div>
+        </div>
+      </div>
+
+      <div class="text-center mt-4">
+        <a class="btn btn-outline-dark" href="#enquire"><i class="bi bi-download me-2"></i>Request Full Catalogue</a>
+      </div>
+  </div>
 </section>
 
 <!-- CTA -->

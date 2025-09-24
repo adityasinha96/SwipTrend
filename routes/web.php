@@ -2,6 +2,10 @@
 
 use App\Http\Controllers\Frontend\IndexController;
 use App\Http\Controllers\Frontend\ServicesController;
+use App\Http\Controllers\Frontend\CatalogueController;
+use App\Http\Controllers\Frontend\PrivacyPolicyController;
+use App\Http\Controllers\Frontend\TermsController;
+use App\Http\Controllers\Frontend\ContactController;
 
 Route::get('/', function () {
     return view('index');
@@ -98,4 +102,9 @@ Route::group(['prefix' => 'profile', 'as' => 'profile.', 'namespace' => 'Auth', 
 
 Route::get('/', [IndexController::class, 'index'])->name('home');
 Route::get('/services', [ServicesController::class, 'index'])->name('services');
+Route::get('/catalogue', [CatalogueController::class, 'index'])->name('catalogue');
+Route::get('/privacy-policy', [PrivacyPolicyController::class, 'show'])->name('privacy-policy');
+Route::get('/terms', [TermsController::class, 'show'])->name('terms');
+Route::view('/about', 'about')->name('about');
+Route::get('/contact', [ContactController::class, 'show'])->name('contact');
 

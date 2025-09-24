@@ -32,4 +32,9 @@ class CatalogueCategory extends Model
     {
         return $date->format('Y-m-d H:i:s');
     }
+
+    public function cataloguDatas()
+    {
+        return $this->hasMany(CataloguData::class, 'catalogue_category_id');
+    }
 }
